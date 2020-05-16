@@ -1,0 +1,47 @@
+
+.fade-enter 
+.show {
+    /* opacity: 1;
+    transition: all .5s ease-in; */
+    animation: show-item 2s ease-in forwards;
+}
+
+.show {
+    animation: hide-item 2s ease-in forwards;
+    /* opacity: 0; */
+    /* transition: all .5s ease-in; */
+}
+
+@keyframes show-item {
+    0% {
+        opacity: 0;
+        color: red;
+    }
+
+    50% {
+        opacity: .5;
+        color: green;
+    }
+
+    100% {
+        opacity: 1;
+        color: blue;
+    }
+}
+
+@keyframes hide-item {
+    0% {
+        opacity: 1;
+        color: red;
+    }
+
+    50% {
+        opacity: .5;
+        color: green;
+    }
+
+    100% {
+        opacity: 0;
+        color: blue;
+    }
+}
