@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Input, Button , List} from 'antd'
+// import { Input, Button , List} from 'antd'
 import store from './store'
+import aixos from 'axios';
 // import { CHANGE_INPUT_VALUE,ADD_TODO_ITEM,DELETE_TODO_ITEM } from './store/actionsTypes'
-import { getInputChangeAction, getAddItemAction ,getDeleteItemAction } from './store/actionsCreators'
+import { getInputChangeAction, getAddItemAction ,getDeleteItemAction, initListAction } from './store/actionsCreators'
+import TodoListUI from './listUI'
+
 
 // const data = [
 //   'Racing car sprays burning fuel into crowd.',
@@ -20,7 +23,17 @@ class TodoList extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleStoreChange = this.handleStoreChange.bind(this);
         this.handleBtnClick = this.handleBtnClick.bind(this);
+        this.handleItemDelete = this.handleItemDelete.bind(this)
         store.subscribe(this.handleStoreChange)
+    }
+
+    componentDidMount() {
+        aixos.get('http://mock-api.com/VnZrjrnw.mock/todoList')
+        .then(res=> {
+            const data = res.data;
+            const action = initListAction(data);
+            store.dispatch(action)
+        })
     }
     handleInputChange(e) {
         // const action = {
@@ -54,24 +67,15 @@ class TodoList extends Component {
     }
 
     render() { 
-        return ( 
-            <div style={{marginTop: '10px',marginLeft: '10px'}}>
-                <div>
-                    <Input 
-                        value={this.state.inputValue} 
-                        placeholder='todo info' 
-                        style={{width: '300px'}}
-                        onChange={this.handleInputChange}
-                    />
-                    <Button type="primary" onClick={this.handleBtnClick}>查询</Button>
-                </div>
-                <List
-                    style={{marginTop: '10px',width:'300px'}}
-                    bordered
-                    dataSource={this.state.list}
-                    renderItem={(item,index) => <List.Item onClick={this.handleItemDelete.bind(this,index)}>{item}</List.Item>}/>
-            </div>
-         );
+        return (
+            <TodoListUI 
+                inputValue={this.state.inputValue}
+                list={this.state.list}
+                handleInputChange={this.handleInputChange}
+                handleBtnClick={this.handleBtnClick}
+                handleItemDelete={this.handleItemDelete}
+            />
+        )
     }
 }
 
