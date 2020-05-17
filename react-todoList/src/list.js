@@ -4,7 +4,7 @@ import 'antd/dist/antd.css';
 import store from './store'
 // import aixos from 'axios';
 // import { CHANGE_INPUT_VALUE,ADD_TODO_ITEM,DELETE_TODO_ITEM } from './store/actionsTypes'
-import { getTodoList, getInputChangeAction, getAddItemAction ,getDeleteItemAction,initListAction } from './store/actionsCreators'
+import { getInitList, getTodoList, getInputChangeAction, getAddItemAction ,getDeleteItemAction,initListAction } from './store/actionsCreators'
 import TodoListUI from './listUI'
 
 
@@ -28,8 +28,14 @@ class TodoList extends Component {
     }
 
     componentDidMount() {
-        const action = getTodoList()
+        // 使用thunk中间件
+        // const action = getTodoList()
+        // store.dispatch(action)
+
+        // 使用saga中间件
+        const action = getInitList();
         store.dispatch(action)
+
         // aixos.get('http://mock-api.com/VnZrjrnw.mock/todoList')
         // .then(res=> {
         //     const data = res.data;
